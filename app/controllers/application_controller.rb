@@ -32,6 +32,32 @@ class ApplicationController < Sinatra::Base
     serialize(size)
   end
 
+  get "/colors" do
+    colors = Color.all 
+    serialize(colors)
+  end
+
+  get "/colors/:id" do 
+    color = Color.find(params[:id])
+    serialize(color)
+  end
+
+  post "/colors" do 
+    serialize(Color.create(color_params))
+  end
+
+  patch "/colors/:id" do
+    color = Color.find(params[:id])
+    color.update(color_params)
+    serialize(color)
+  end
+
+  delete "/colors/:id" do 
+    color = Color.find(params[:id])
+    color.destroy
+    serialize(color)
+  end
+
   private 
 
   def size_params
@@ -39,8 +65,13 @@ class ApplicationController < Sinatra::Base
     params.select {|param,value| allowed_params.include?(param)}
   end
 
-  def serialize(size)
-    size.to_json
+  def color_params
+    allowed_params = %w(color_name)
+    params.select {|param,value| allowed_params.include?(param)}
+  end
+
+  def serialize(obj)
+    obj.to_json
   end
 
 end
