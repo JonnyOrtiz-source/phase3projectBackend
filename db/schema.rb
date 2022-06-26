@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_26_204111) do
+ActiveRecord::Schema.define(version: 2022_06_26_212213) do
+
+  create_table "colors", force: :cascade do |t|
+    t.string "color_name"
+  end
 
   create_table "sizes", force: :cascade do |t|
     t.string "size_name"

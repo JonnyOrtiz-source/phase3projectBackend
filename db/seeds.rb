@@ -5,4 +5,11 @@ puts "🌱 Seeding spices..."
     Size.create(size_name: "#{i}", size_description: "Size #{i}")
   end
 
+# Populate colors
+10.times do
+    Color.create(
+      color_name: Faker::Color.color_name,
+    )
+  end
+
 puts "✅ Done seeding!"
