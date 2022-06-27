@@ -58,6 +58,34 @@ class ApplicationController < Sinatra::Base
     serialize(color)
   end
 
+  # Brand routes
+  get "/brands" do
+    brands = Brand.all 
+    serialize(brands)
+  end
+
+  get "/brands/:id" do 
+    brand = Brand.find(params[:id])
+    serialize(brand)
+  end
+
+  post "/brands" do 
+    serialize(Brand.create(brand_params))
+  end
+
+  patch "/brands/:id" do
+    brand = Brand.find(params[:id])
+    brand.update(brand_params)
+    serialize(brand)
+  end
+
+  delete "/brands/:id" do 
+    brand = Brand.find(params[:id])
+    brand.destroy
+    serialize(brand)
+  end
+
+
   private 
 
   def size_params
@@ -67,6 +95,11 @@ class ApplicationController < Sinatra::Base
 
   def color_params
     allowed_params = %w(color_name)
+    params.select {|param,value| allowed_params.include?(param)}
+  end
+
+  def brand_params
+    allowed_params = %w(brand_name)
     params.select {|param,value| allowed_params.include?(param)}
   end
 
