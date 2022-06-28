@@ -10,20 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_27_003408) do
+ActiveRecord::Schema.define(version: 2022_06_28_140746) do
 
-  create_table "brands", force: :cascade do |t|
-    t.string "brand_name"
-    t.string "brand_description"
+  create_table "shoes", force: :cascade do |t|
+    t.string "shoe_name"
+    t.string "sex"
+    t.string "brand"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "image_url"
   end
 
-  create_table "colors", force: :cascade do |t|
-    t.string "color_name"
+  create_table "user_shoes", force: :cascade do |t|
+    t.string "shoe_type"
+    t.string "purchase_date"
+    t.string "color"
+    t.string "size"
+    t.string "UPC"
+    t.integer "user_id", null: false
+    t.integer "shoe_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shoe_id"], name: "index_user_shoes_on_shoe_id"
+    t.index ["user_id"], name: "index_user_shoes_on_user_id"
   end
 
-  create_table "sizes", force: :cascade do |t|
-    t.string "size_name"
-    t.string "size_description"
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "username"
+    t.string "password"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "user_shoes", "shoes"
+  add_foreign_key "user_shoes", "users"
 end

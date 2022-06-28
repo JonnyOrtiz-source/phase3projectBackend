@@ -1,105 +1,95 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
+
+  # get "/" do
+  #   { message: "Good luck with your project!" }.to_json
+  # end
+
+  # User routes: ALL
+    get "/users" do
+      users = User.all 
+      serialize(users)
+    end
   
-  # Add your routes here
-  get "/" do
-    { message: "Good luck with your project!" }.to_json
-  end
+    get "/users/:id" do 
+      user = User.find(params[:id])
+      serialize(user)
+    end
+  
+    post "/users" do 
+      serialize(User.create(user_params))
+    end
+  
+    patch "/users/:id" do
+      user = User.find(params[:id])
+      user.update(user_params)
+      serialize(user)
+    end
+  
+    delete "/users/:id" do 
+      user = User.find(params[:id])
+      user.destroy
+      serialize(user)
+    end
 
-  get "/sizes" do
-    sizes = Size.all 
-    serialize(sizes)
-  end
+  # Shoe routes: ALL
+    get "/shoes" do
+      shoes = Shoe.all 
+      serialize(shoes)
+    end
+  
+    get "/shoes/:id" do 
+      shoe = Shoe.find(params[:id])
+      serialize(shoe)
+    end
+  
+    post "/shoes" do 
+      serialize(Shoe.create(shoe_params))
+    end
+  
+    patch "/shoes/:id" do
+      shoe = Shoe.find(params[:id])
+      shoe.update(shoe_params)
+      serialize(shoe)
+    end
+  
+    delete "/shoes/:id" do 
+      shoe = Shoe.find(params[:id])
+      shoe.destroy
+      serialize(shoe)
+    end
 
-  get "/sizes/:id" do 
-    size = Size.find(params[:id])
-    serialize(size)
-  end
+    # User_Shoes routes: POST, PATCH, DELETE
+    post "/user_shoes" do
+      serialize(UserShoes.create(user_shoes_params))
+    end
 
-  post "/sizes" do 
-    serialize(Size.create(size_params))
-  end
+    patch "/user_shoes/:id" do
+      user_shoes = UserShoes.find(params[:id])
+      user_shoes.update(user_shoes_params)
+      serialize(user_shoes)
+    end
 
-  patch "/sizes/:id" do
-    size = Size.find(params[:id])
-    size.update(size_params)
-    serialize(size)
-  end
-
-  delete "/sizes/:id" do 
-    size = Size.find(params[:id])
-    size.destroy
-    serialize(size)
-  end
-
-  get "/colors" do
-    colors = Color.all 
-    serialize(colors)
-  end
-
-  get "/colors/:id" do 
-    color = Color.find(params[:id])
-    serialize(color)
-  end
-
-  post "/colors" do 
-    serialize(Color.create(color_params))
-  end
-
-  patch "/colors/:id" do
-    color = Color.find(params[:id])
-    color.update(color_params)
-    serialize(color)
-  end
-
-  delete "/colors/:id" do 
-    color = Color.find(params[:id])
-    color.destroy
-    serialize(color)
-  end
-
-  # Brand routes
-  get "/brands" do
-    brands = Brand.all 
-    serialize(brands)
-  end
-
-  get "/brands/:id" do 
-    brand = Brand.find(params[:id])
-    serialize(brand)
-  end
-
-  post "/brands" do 
-    serialize(Brand.create(brand_params))
-  end
-
-  patch "/brands/:id" do
-    brand = Brand.find(params[:id])
-    brand.update(brand_params)
-    serialize(brand)
-  end
-
-  delete "/brands/:id" do 
-    brand = Brand.find(params[:id])
-    brand.destroy
-    serialize(brand)
-  end
-
-
+    delete "/user_shoes/:id" do
+      user_shoes = UserShoes.find(params[:id])
+      user_shoes.destroy
+      serialize(user_shoes)
+    end
+  
   private 
 
-  def size_params
-    allowed_params = %w(size_name size_description)
+  def user_params
+    allowed_params = %w(username first_name last_name)
     params.select {|param,value| allowed_params.include?(param)}
   end
 
-  def color_params
-    allowed_params = %w(color_name)
+  def shoe_params
+    allowed_params = %w(shoe_name sex brand)
     params.select {|param,value| allowed_params.include?(param)}
   end
 
-  def brand_params
-    allowed_params = %w(brand_name)
+  def user_shoes_params
+    allowed_params = %w(shoe_type purchase_date user_id shoe_id color size UPC image_url)
     params.select {|param,value| allowed_params.include?(param)}
   end
 
