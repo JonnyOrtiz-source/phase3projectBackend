@@ -4,34 +4,7 @@ class ApplicationController < Sinatra::Base
   # get "/" do
   #   { message: "Good luck with your project!" }.to_json
   # end
-
-  # User routes: ALL
-    get "/users" do
-      users = User.all 
-      serialize(users)
-    end
   
-    get "/users/:id" do 
-      user = User.find(params[:id])
-      serialize(user)
-    end
-  
-    post "/users" do 
-      serialize(User.create(user_params))
-    end
-  
-    patch "/users/:id" do
-      user = User.find(params[:id])
-      user.update(user_params)
-      serialize(user)
-    end
-  
-    delete "/users/:id" do 
-      user = User.find(params[:id])
-      user.destroy
-      serialize(user)
-    end
-
   # Shoe routes: ALL
     get "/shoes" do
       shoes = Shoe.all 
