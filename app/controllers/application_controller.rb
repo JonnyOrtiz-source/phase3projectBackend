@@ -4,7 +4,7 @@ class ApplicationController < Sinatra::Base
   # get "/" do
   #   { message: "Good luck with your project!" }.to_json
   # end
-  
+
   # Shoe routes: ALL
     get "/shoes" do
       shoes = Shoe.all 
@@ -29,7 +29,7 @@ class ApplicationController < Sinatra::Base
     delete "/shoes/:id" do 
       shoe = Shoe.find(params[:id])
       shoe.destroy
-      serialize(shoe)
+      # serialize(shoe)
     end
 
     # User_Shoes routes: POST, PATCH, DELETE
@@ -46,15 +46,10 @@ class ApplicationController < Sinatra::Base
     delete "/user_shoes/:id" do
       user_shoes = UserShoes.find(params[:id])
       user_shoes.destroy
-      serialize(user_shoes)
     end
   
   private 
 
-  def user_params
-    allowed_params = %w(username first_name last_name)
-    params.select {|param,value| allowed_params.include?(param)}
-  end
 
   def shoe_params
     allowed_params = %w(shoe_name sex brand)

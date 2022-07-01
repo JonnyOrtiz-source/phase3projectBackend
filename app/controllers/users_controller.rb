@@ -23,13 +23,17 @@ class UsersController < ApplicationController
   delete "/users/:id" do 
     user = User.find(params[:id])
     user.destroy
-    serialize(user)
   end
 
   private
+
+  def user_params
+    allowed_params = %w(username first_name last_name)
+    params.select {|param,value| allowed_params.include?(param)}
+  end
   
   def serialize(objects)
-    objects.to_json(include: :user_shoes)
+    objects.to_json
   end
 
 #   def serialize(objects)
