@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  # User routes: ALL
   get "/users" do
     users = User.all 
     serialize(users)
@@ -33,16 +32,12 @@ class UsersController < ApplicationController
   end
   
   def serialize(objects)
-    objects.to_json
+    objects.to_json(
+        include: {  
+          shoes: {
+            only: [:shoe_name, :brand, :sex, :image_url]
+        }
+     }
+    )
   end
-
-#   def serialize(objects)
-#     objects.to_json(
-#         include: {  
-#           shoes: {
-#             only: [:shoe_name, :brand, :sex, :image_url]
-#         }
-#      }
-#     )
-#   end
 end
