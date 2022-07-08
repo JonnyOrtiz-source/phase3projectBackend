@@ -33,6 +33,14 @@ private
 
     def serialize(obj)
         obj.to_json
+        # (
+        #   methods: :formatted_time,
+        #   include: {
+        #     users: {
+        #       only: [:first_name, :last_name]
+        #     }
+        #   }
+        # )
     end
 
 end

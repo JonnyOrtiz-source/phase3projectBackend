@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   get "/users" do
     users = User.all 
     serialize(users)
+    # serialize(User.includes(:shoes)) // does nothing special in Postman
   end
 
   get "/users/:id" do 
@@ -31,13 +32,16 @@ class UsersController < ApplicationController
     params.select {|param,value| allowed_params.include?(param)}
   end
   
-  def serialize(objects)
-    objects.to_json(
-        include: {  
-          shoes: {
-            only: [:shoe_name, :brand, :sex, :image_url]
+  def serialize(obj)
+    obj.to_json(
+      include: {  
+        shoes: {
+          only: [:shoe_name, :brand, :sex, :image_url, :id],
+          include: { user_shoes: {
+            only: [:shoe_type, :purchase_date, :color, :size, :UPC, :id]
+          }}
         }
-     }
+      }
     )
   end
 end
